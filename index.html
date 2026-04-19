@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nguyễn Huy Store · Official</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="aurora-bg"></div>
+  <canvas id="sakuraCanvas"></canvas>
+
+  <div id="bankPopup" class="bank-popup-overlay">
+    <div class="bank-popup">
+      <div class="bank-popup-header">
+        <h3>🏦 Thông Tin Chuyển Khoản</h3>
+        <button class="close-popup-btn" onclick="closeBankPopup()">✕</button>
+      </div>
+      <div class="bank-popup-body">
+        <div class="bank-qr-container">
+          <img src="2.jpg" alt="QR Code Ngân Hàng" class="bank-qr-img" id="bankQRImg">
+        </div>
+        <div class="bank-info">
+          <div class="bank-info-row">
+            <span class="bank-label">🏦 Ngân Hàng:</span>
+            <span class="bank-value">ACB ( Á Châu Bank )</span>
+          </div>
+          <div class="bank-info-row">
+            <span class="bank-label">👤 Chủ TK:</span>
+            <span class="bank-value">NGUYEN THI NGA</span>
+          </div>
+          <div class="bank-info-row">
+            <span class="bank-label">📱 Số TK:</span>
+            <span class="bank-value" id="bankAccountNumber">19244941</span>
+          </div>
+        </div>
+        <button class="copy-bank-btn" onclick="copyBankInfo()">📋 Sao Chép Thông Tin</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast">Sao chép thành công!</div>
+
+  <div id="notifyOverlay" class="notify-overlay">
+    <canvas id="notifyCanvas"></canvas>
+    <div class="notify-box">
+      <div class="flower-icon">🌸</div>
+      <div class="shop-name">NGUYỄN HUY</div>
+      <div class="progress-bar-container">
+        <div id="progressBar" class="progress-bar"></div>
+      </div>
+      <div class="loading-text">Đang tải dữ liệu...</div>
+    </div>
+  </div>
+
+  <div id="shopContent" class="shop-content hidden">
+    <div class="shop-header">
+      <div class="dev-tag">⚡ Developer ⚡</div>
+      <h1>NGUYỄN <span class="highlight">HUY</span> STORE</h1>
+      <p>🔥 File chuẩn · Bảo hành dài hạn · Hỗ trợ Android & iOS 🔥</p>
+    </div>
+    <div class="tabs">
+      <button class="tab-btn active" onclick="showPanel('standard')">📂 Thường</button>
+      <button class="tab-btn" onclick="showPanel('vip')">💎 Vip</button>
+      <button class="tab-btn" onclick="showPanel('premium')">👑 Premium</button>
+    </div>
+    <div id="product-container" class="cards-grid"></div>
+  </div>
+
+  <div class="music-player" id="musicPlayer">
+    <div class="music-info">
+      <marquee id="songTitle" behavior="scroll" direction="left" scrollamount="3">🎵 Chưa có nhạc</marquee>
+    </div>
+    <div class="music-controls">
+      <button class="music-btn" id="prevBtn"><i class="fas fa-backward"></i></button>
+      <button class="music-btn" id="playPauseBtn"><i class="fas fa-play"></i></button>
+      <button class="music-btn" id="nextBtn"><i class="fas fa-forward"></i></button>
+    </div>
+  </div>
+
+  <div class="footer-icons">
+    <div class="admin-badge" onclick="openAdminPopup()">
+      <span class="admin-icon">👑</span>
+      <div class="admin-info">
+        <span class="admin-name">Nguyễn Huy</span>
+        <span class="admin-status">Online</span>
+      </div>
+    </div>
+    <div class="theme-badge" onclick="cycleTheme()">
+      <span class="theme-icon">🎨</span>
+      <div class="admin-info">
+        <span class="admin-name">Đổi màu</span>
+        <span class="admin-status" id="themeStatus">Hồng</span>
+      </div>
+    </div>
+  </div>
+
+  <div id="adminPopup" class="admin-popup hidden">
+    <div id="adminLoadingBox" class="admin-loading">
+      > connecting to server...<br>
+      > loading admin data...<br>
+      > decrypting profile...<br>
+      > access granted...
+    </div>
+    <div id="adminInfoBox" class="admin-box">
+      <img src="1.jpg" alt="Admin Avatar" class="avatar">
+      <h2>Nguyễn Huy</h2>
+      <div class="status-pop">🟢 Online</div>
+      
+      <div class="info">
+        <div class="row">
+          <i class="fas fa-phone" style="color: var(--primary); width: 24px;"></i>
+          <span>0899241533</span>
+        </div>
+        <div class="row">
+          <i class="fas fa-envelope" style="color: var(--primary); width: 24px;"></i>
+          <span>gmail draventrumfiles@gmail.com</span>
+        </div>
+        <div class="row">
+          <i class="fas fa-map-marker-alt" style="color: var(--primary); width: 24px;"></i>
+          <span>Q12 - TPHCM - VN</span>
+        </div>
+      </div>
+
+      <div class="action-buttons">
+        <button class="link-btn" onclick="window.open('https://zalo.me/0899241533 ')">
+          <i class="fab fa-zalo"></i> Zalo
+        </button>
+        <button class="link-btn" onclick="window.open('https://www.facebook.com/share/18TQeXWybY/?mibextid=wwXIfr ')">
+          <i class="fab fa-facebook"></i> Facebook
+        </button>
+      </div>
+      <div class="action-buttons">
+        <button class="link-btn" onclick="window.open('https://tiktok.com/@shadowrocket.loveyou ')">
+          <i class="fab fa-tiktok"></i> TikTok
+        </button>
+        <button class="link-btn" onclick="closeAdminPopup(); openBankPopup()">
+          <i class="fas fa-university"></i> Bank
+        </button>
+      </div>
+      
+      <button class="close-btn" onclick="closeAdminPopup()">ĐÓNG</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
